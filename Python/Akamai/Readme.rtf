@@ -1,0 +1,109 @@
+Akamai API Management Script
+============================
+
+Overview
+--------
+
+| This Python script provides automation for managing Akamai API
+  definitions via Akamai’s APIs.
+| It integrates with AWS Secrets Manager for secure storage of
+  credentials and uses Akamai EdgeGrid authentication.
+
+The script supports operations such as: - Checking API versions and lock
+status. - Cloning API versions. - Updating API definitions with Swagger
+(JSON/YAML). - Activating Akamai's API definiton versions in staging and/or production 
+environments.
+
+Requirements
+------------
+
+-  Python 3.7+
+-  Dependencies: argparse, requests, json, yaml, os, base64, boto3,
+   akamai.edgegrid
+
+Install dependencies with:
+
+.. code:: bash
+
+   pip install -r requirements.txt
+
+AWS Setup
+---------
+
+You must configure AWS Secrets Manager to store the following
+credentials: - ``client_secret`` - ``access_token`` - ``client_token`` -
+``host``
+
+Update the following placeholders in the script: -
+``TODO#_add_secret_name`` - ``TODO#_add_region name(us-east-1)`` -
+``TODO#_Add_roleARn_number`` - ``TODO#Add_Akamai_contract_ID`` -
+``TODO#_Add_group_ID``
+
+Usage
+-----
+
+| Run the script with one or more CLI options.
+| Common arguments include:
+
+-  ``-vck`` / ``--check_version`` → Check current API version(s) and
+   lock status.
+-  ``-capi`` / ``--clone_API`` → Clone the selected API version.
+-  ``-update`` / ``--update_def`` → Update API definition with a Swagger
+   file.
+-  ``-sinPush`` / ``--single_api_push`` → Push API definition to a
+   single environment.
+-  ``-bothPush`` / ``--both_env_api_push`` → Push API definition to both
+   environments.
+-  ``-apiId`` / ``--api_ID`` → API definition ID.
+-  ``-verNum`` / ``--ver_Num`` → API version number.
+-  ``-filepath`` / ``--file_path`` → Path to Swagger JSON/YAML file.
+-  ``-envir`` / ``--environment`` → Target environment (STAGING or
+   PRODUCTION).
+-  ``-env1``, ``-env2`` → Environments for dual push.
+
+Example Commands
+----------------
+
+Check version info:
+
+.. code:: bash
+
+   python script.py -vck -apiId 12345
+
+Clone an API version:
+
+.. code:: bash
+
+   python script.py -capi -apiId 12345 -verNum 2
+
+Update an API definition:
+
+.. code:: bash
+
+   python script.py -update -apiId 12345 -verNum 3 -filepath ./swagger.yaml
+
+Push to staging:
+
+.. code:: bash
+
+   python script.py -sinPush -apiId 12345 -verNum 3 -envir STAGING
+
+Push to both environments:
+
+.. code:: bash
+
+   python script.py -bothPush -apiId 12345 -verNum 3 -env1 STAGING -env2 PRODUCTION
+
+Notes
+-----
+
+-  Make sure your Swagger file is valid JSON or YAML.
+-  Ensure your AWS Secrets Manager entry matches the expected key names.
+-  Do not reuse the same environment for ``-env1`` and ``-env2``.
+-  All TODO placeholders in the script must be configured before
+   running.
+
+--------------
+
+| Author: *Will Crews*
+| Version: 3.0
